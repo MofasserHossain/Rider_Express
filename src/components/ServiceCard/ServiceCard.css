@@ -1,0 +1,11 @@
+.serviceCard {
+  background-color: aliceblue;
+  padding: 20px 30px;
+  margin: 0 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.serviceCard img {
+  width: 150px;
+}

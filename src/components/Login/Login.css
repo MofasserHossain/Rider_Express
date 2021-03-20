@@ -1,0 +1,21 @@
+.formDiv {
+  width: 40%;
+  display: block;
+  margin: 0 auto;
+  padding: 20px;
+}
+input:focus {
+  border: none !important;
+}
+.custom__form input {
+  display: block;
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  padding: 10px;
+}
+
+.custom__form {
+  border: 1px solid #000;
+  padding: 20px;
+}

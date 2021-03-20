@@ -18,12 +18,12 @@ const Home = () => {
   useEffect(() => {
     setServices(servicesData);
   }, []);
-  console.log(services);
+  // console.log(services);
   return (
     <div style={background}>
       <Row>
         {services.map((service) => (
-          <ServiceCard service={service}></ServiceCard>
+          <ServiceCard key={service.id} service={service}></ServiceCard>
         ))}
       </Row>
     </div>

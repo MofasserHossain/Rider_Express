@@ -4,22 +4,26 @@ import Header from './components/Header/Header';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { createContext, useState } from 'react';
 import Home from './components/Home/Home';
+import PickDestination from './components/PickDestination/PickDestination';
+import Login from './components/Login/Login';
 export const UserContext = createContext();
 function App() {
-  const [user, setUser] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState({});
   return (
-    <UserContext.Provider value={[user, setUser]}>
+    <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
       <Router>
-        <Header></Header>
+        <Header />
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/destination">{/* <PublicPage /> */}</Route>
-          <Route path="/login">{/* <LoginPage /> */}</Route>
-          {/* <PrivateRoute path="/protected"> */}
-          {/* <ProtectedPage /> */}
-          {/* </PrivateRoute> */}
+          <PrivateRoute path="/destination/:serviceName">
+            <PickDestination />
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="*">{/* <LoginPage /> */}</Route>
         </Switch>
       </Router>
     </UserContext.Provider>

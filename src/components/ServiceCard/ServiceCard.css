@@ -4,6 +4,7 @@
   margin: 0 10px;
   text-align: center;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .serviceCard img {

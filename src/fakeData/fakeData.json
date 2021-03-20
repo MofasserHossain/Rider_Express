@@ -3,108 +3,124 @@
     "id": 1,
     "name": "Bike",
     "url": "https://i.ibb.co/pzC7fmh/Frame.png",
-    "category": {
-      "category-1": {
+    "category": [
+      {
+        "id": "category-1",
         "seat": 2,
         "categoryName": "Bike",
         "hirePrice": 25
       },
-      "category-2": {
+      {
+        "id": "category-2",
         "seat": 3,
         "categoryName": "Bike",
         "hirePrice": 30
       },
-      "category-3": {
+      {
+        "id": "category-3",
         "seat": 4,
         "categoryName": "Bike",
         "hirePrice": 50
       },
-      "category-4": {
+      {
+        "id": "category-4",
         "seat": 2,
         "categoryName": "Bike",
         "hirePrice": 20
       }
-    }
+    ]
   },
   {
     "id": 2,
     "name": "Car",
     "url": "https://i.ibb.co/Xp7LTTd/Frame-2.png",
-    "category": {
-      "category-1": {
+    "category": [
+      {
+        "id": "category-1",
         "seat": 4,
         "categoryName": "Car",
         "hirePrice": 45
       },
-      "category-2": {
+      {
+        "id": "category-2",
         "seat": 4,
         "categoryName": "Car",
         "hirePrice": 60
       },
-      "category-3": {
+      {
+        "id": "category-3",
         "seat": 4,
         "categoryName": "Car",
         "hirePrice": 67
       },
-      "category-4": {
+      {
+        "id": "category-4",
         "seat": 4,
         "categoryName": "Car",
         "hirePrice": 47
       }
-    }
+    ]
   },
   {
     "id": 3,
     "name": "Bus",
     "url": "https://i.ibb.co/hmwgrdY/Frame-1.png",
-    "category": {
-      "category-1": {
+    "category": [
+      {
+        "id": "category-1",
         "seat": 1,
         "categoryName": "Bus",
         "hirePrice": 20
       },
-      "category-2": {
+      {
+        "id": "category-2",
         "seat": 1,
         "categoryName": "Bus",
         "hirePrice": 25
       },
-      "category-3": {
+      {
+        "id": "category-3",
         "seat": 1,
         "categoryName": "Bus",
         "hirePrice": 40
       },
-      "category-4": {
+      {
+        "id": "category-4",
         "seat": 1,
         "categoryName": "Bus",
         "hirePrice": 35
       }
-    }
+    ]
   },
   {
     "id": 4,
     "name": "Train",
     "url": "https://i.ibb.co/1vgff7H/Group.png",
-    "category": {
-      "category-1": {
+    "category": [
+      {
+        "id": "category-1",
         "seat": 1,
         "categoryName": "Train",
         "hirePrice": 20
       },
-      "category-2": {
+      {
+        "id": "category-2",
         "seat": 2,
         "categoryName": "Train",
         "hirePrice": 40
       },
-      "category-3": {
+      {
+        "id": "category-3",
         "seat": 3,
         "categoryName": "Train",
         "hirePrice": 60
       },
-      "category-4": {
+      {
+        "id": "category-4",
         "seat": 4,
         "categoryName": "Train",
         "hirePrice": 70
       }
-    }
+    ]
   }
 ]

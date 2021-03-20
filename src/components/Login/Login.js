@@ -6,6 +6,8 @@ import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
 import './Login.css';
 import { useForm } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const Login = () => {
   // . location
@@ -18,6 +20,7 @@ const Login = () => {
   } else {
     firebase.app();
   }
+  const [toggleUser, setToggleUser] = useState(false);
   const [user, setUser] = useState({
     isSigned: false,
     name: '',
@@ -73,18 +76,26 @@ const Login = () => {
       });
   };
   const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const { name, email, password } = data;
+
+    console.log(data);
+  };
   return (
     <div className="formDiv">
       <div className="custom__form ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            name="name"
-            placeholder="Enter Your Name"
-            ref={register({ required: true })}
-          />
-          {errors.name && (
-            <span style={{ color: 'red' }}>Please Enter Your Name</span>
+          {toggleUser && (
+            <>
+              <input
+                name="name"
+                placeholder="Enter Your Name"
+                ref={register({ required: true })}
+              />
+              {errors.name && (
+                <span style={{ color: 'red' }}>Please Enter Your Name</span>
+              )}
+            </>
           )}
           <input
             name="email"
@@ -95,6 +106,7 @@ const Login = () => {
             <span style={{ color: 'red' }}>Please Enter Your Name</span>
           )}
           <input
+            id="password"
             name="password"
             type="password"
             placeholder="Enter Your Password"
@@ -109,29 +121,68 @@ const Login = () => {
               letter and at least 8 or more characters
             </span>
           )}
-          <input
-            name="password"
-            type="password"
-            placeholder="Confirm Your Password"
-            ref={register({
-              pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-              required: true,
-            })}
-          />
-          {errors.password && (
-            <span style={{ color: 'red' }}>
-              Password must contain at least 1 number, 1 uppercase, 1 lowercase
-              letter and at least 8 or more characters
-            </span>
+          {toggleUser && (
+            <>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm Your Password"
+                ref={register({
+                  pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                  required: true,
+                })}
+              />
+              {errors.confirmPassword && (
+                <span style={{ color: 'red' }}>
+                  Password must contain at least 1 number, 1 uppercase, 1
+                  lowercase letter and at least 8 or more characters
+                </span>
+              )}
+            </>
           )}
-          <input className="btn btn-primary" type="submit" />
+          {toggleUser || (
+            <div className="d-flex justify-content-between">
+              <span>
+                <input type="checkbox" id="check" />
+                <label htmlFor="check">Remember Me</label>
+              </span>
+              <span className="color cursor-pointer">Forgot Password?</span>
+            </div>
+          )}
+          <input
+            className="btn btn-submit"
+            type="Submit"
+            value={toggleUser ? 'Submit' : 'Log In'}
+          />
         </form>
-      </div>
 
-      <button onClick={handleGoogleSignIn}>Sign In With Google</button>
-      <br />
-      <br />
-      <button onClick={handleFbSignIn}>Sign In With Facebook</button>
+        <p className="text-center">
+          {toggleUser ? 'Already Have an Account?' : 'Don,t Have an Account? '}{' '}
+          <span
+            className="color cursor-pointer"
+            onClick={() => setToggleUser(!toggleUser)}
+          >
+            {toggleUser ? 'Log In' : 'Create Account'}
+          </span>
+        </p>
+      </div>
+      <div className="otherSignIn text-center">
+        <p className="my-2">Or</p>
+        <button onClick={handleGoogleSignIn}>
+          <span className="google">
+            <FontAwesomeIcon icon={faGoogle} />
+          </span>
+          Sign In With Google
+        </button>
+        <br />
+        <button onClick={handleFbSignIn}>
+          <span className="fb">
+            <FontAwesomeIcon icon={faFacebookF} />
+          </span>
+          Sign In With Facebook
+        </button>
+      </div>
     </div>
   );
 };

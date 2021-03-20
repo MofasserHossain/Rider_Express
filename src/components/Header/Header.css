@@ -1,3 +1,31 @@
-a:hover {
+.menu a {
+  color: #000;
   text-decoration: none;
+}
+
+.menu a:hover {
+  text-decoration: none;
+  color: #000;
+}
+.menu-item .nav-link {
+  color: #000;
+}
+.menu-item a:hover,
+.logo a:hover {
+  color: #000;
+  text-decoration: none;
+}
+.logo a {
+  color: #ff6e40;
+  font-weight: 600;
+  font-size: 30px;
+}
+.menu .color {
+  color: #ff6e40;
+  font-weight: 600;
+}
+.button {
+  background-color: #ff6e40 !important;
+  color: aliceblue !important;
+  border: none !important;
 }

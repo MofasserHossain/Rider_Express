@@ -1,0 +1,20 @@
+.form-card {
+  background-color: #e6ecf1;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.form-card input {
+  width: 100%;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.form-card input:focus {
+  border: none !important;
+}
+
+.form-card h4 {
+  color: #363636;
+}

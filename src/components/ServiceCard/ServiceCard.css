@@ -1,3 +1,9 @@
+.service a {
+  color: black;
+}
+.service a:hover {
+  color: black;
+}
 .serviceCard {
   background-color: aliceblue;
   padding: 20px 30px;

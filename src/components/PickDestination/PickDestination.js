@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import ServiceData from '../../fakeData/fakeData.json';
+import DestinationMap from '../DestinationMap/DestinationMap';
+import './PickDestination.css';
+import ServiceInformation from '../ServiceInformation/ServiceInformation';
 
 const PickDestination = () => {
+  const [searchPlace, setSearchPlace] = useState({
+    from: '',
+    to: '',
+  });
+  const [togglePlace, setTogglePlace] = useState(true);
   const [rideInfo, setRideInfo] = useState([]);
   const { serviceName } = useParams();
   useEffect(() => {
@@ -13,19 +22,52 @@ const PickDestination = () => {
     setRideInfo(findServiceData);
   }, [serviceName]);
   console.log(rideInfo);
-  const { category, name } = rideInfo;
+  const { category } = rideInfo;
   console.log(category);
+  const handleSearchPlace = (e) => {
+    const searchPlaces = { ...searchPlace };
+    searchPlaces[e.target.name] = e.target.value;
+    setSearchPlace(searchPlaces);
+  };
+
   return (
-    <div>
-      <h3>{name}</h3>
-      {category &&
-        category.map((categoryData) => (
-          <ul key={category.id}>
-            <li>{categoryData.categoryName}</li>
-            <li>{categoryData.hirePrice}</li>
-          </ul>
-        ))}
-    </div>
+    <>
+      <Container className="pt-3 border-top-2">
+        <Row>
+          <Col md={4}>
+            {togglePlace ? (
+              <div className="form-card">
+                <h4>Pick Form</h4>
+                <input
+                  onBlur={handleSearchPlace}
+                  type="text"
+                  name="from"
+                  placeholder="Select Your Place"
+                />
+                <h4 className="mt-3">Pick to</h4>
+                <input
+                  onBlur={handleSearchPlace}
+                  type="text"
+                  name="to"
+                  placeholder="Select Your Place"
+                />
+                <button
+                  onClick={() => setTogglePlace(!togglePlace)}
+                  className="btn w-100 mt-3 color btn-submit"
+                >
+                  Search
+                </button>
+              </div>
+            ) : (
+              <ServiceInformation place={searchPlace} category={category} />
+            )}
+          </Col>
+          <Col md={8}>
+            <DestinationMap />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

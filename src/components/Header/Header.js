@@ -6,14 +6,14 @@ import { UserContext } from '../../App';
 const Header = () => {
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
   return (
-    <Navbar variant="light" expand="md">
+    <Navbar variant="light" expand="md" className="menu">
       <Container>
-        <Navbar.Brand>
-          <Link to="/">Urban Rider</Link>
+        <Navbar.Brand className="logo">
+          <Link to="/">Rider Express</Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+          <Nav className="ml-auto menu-item">
             <Nav.Link>
               <Link to="/">Home</Link>
             </Nav.Link>
@@ -28,10 +28,10 @@ const Header = () => {
             </Nav.Link>
             {loggedInUser.email ? (
               <Nav.Link>
-                <span>{loggedInUser.displayName}</span>
+                <span className="color">{loggedInUser.displayName}</span>
               </Nav.Link>
             ) : (
-              <Button variant="outline-success">
+              <Button className="button">
                 <Link to="/login">Log In</Link>
               </Button>
             )}

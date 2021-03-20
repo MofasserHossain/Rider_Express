@@ -12,19 +12,19 @@
       },
       {
         "id": "category-2",
-        "seat": 3,
+        "seat": 1,
         "categoryName": "Bike",
         "hirePrice": 30
       },
       {
         "id": "category-3",
-        "seat": 4,
+        "seat": 2,
         "categoryName": "Bike",
         "hirePrice": 50
       },
       {
         "id": "category-4",
-        "seat": 2,
+        "seat": 1,
         "categoryName": "Bike",
         "hirePrice": 20
       }
@@ -68,25 +68,25 @@
     "category": [
       {
         "id": "category-1",
-        "seat": 1,
+        "seat": 10,
         "categoryName": "Bus",
         "hirePrice": 20
       },
       {
         "id": "category-2",
-        "seat": 1,
+        "seat": 15,
         "categoryName": "Bus",
         "hirePrice": 25
       },
       {
         "id": "category-3",
-        "seat": 1,
+        "seat": 25,
         "categoryName": "Bus",
         "hirePrice": 40
       },
       {
         "id": "category-4",
-        "seat": 1,
+        "seat": 35,
         "categoryName": "Bus",
         "hirePrice": 35
       }
@@ -99,25 +99,25 @@
     "category": [
       {
         "id": "category-1",
-        "seat": 1,
+        "seat": 23,
         "categoryName": "Train",
         "hirePrice": 20
       },
       {
         "id": "category-2",
-        "seat": 2,
+        "seat": 18,
         "categoryName": "Train",
         "hirePrice": 40
       },
       {
         "id": "category-3",
-        "seat": 3,
+        "seat": 27,
         "categoryName": "Train",
         "hirePrice": 60
       },
       {
         "id": "category-4",
-        "seat": 4,
+        "seat": 20,
         "categoryName": "Train",
         "hirePrice": 70
       }

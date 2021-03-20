@@ -8,7 +8,20 @@ import './Login.css';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
+const schema = yup.object().shape({
+  password: yup
+    .string()
+    .required(
+      'Password must contain at least 1 number 1 uppercase 1 lowercase letter and at least 8 or more characters'
+    ),
+  confirmPassword: yup
+    .string()
+    .required('Confirm Password is required')
+    .oneOf([yup.ref('password'), null], 'Passwords does not match'),
+});
 const Login = () => {
   // . location
   const history = useHistory();
@@ -28,6 +41,7 @@ const Login = () => {
     photo: '',
     password: '',
     error: '',
+    success: false,
   });
   const handleGoogleSignIn = () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -40,6 +54,8 @@ const Login = () => {
           isSigned: true,
           name: displayName,
           email: email,
+          error: '',
+          success: true,
           photo: photoURL,
         });
         setLoggedInUser(res.user);
@@ -65,7 +81,9 @@ const Login = () => {
           isSigned: true,
           name: displayName,
           email: email,
+          error: '',
           photo: photoURL,
+          success: true,
         });
         setLoggedInUser(user);
         history.replace(from);
@@ -75,14 +93,72 @@ const Login = () => {
         console.log(errorMessage);
       });
   };
-  const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => {
-    const { name, email, password } = data;
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    console.log(data);
+  const updateUser = (name) => {
+    const user = firebase.auth().currentUser;
+    user
+      .updateProfile({
+        displayName: name,
+      })
+      .then(function () {
+        console.log('user Information Updated');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
+  const onSubmit = (data) => {
+    const { email, password, name } = data;
+    if (toggleUser && email && password) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+          const newUser = { ...user };
+          newUser.error = '';
+          newUser.success = true;
+          setUser(newUser);
+          updateUser(name);
+          setLoggedInUser(res.user);
+          history.replace(from);
+        })
+        .catch((error) => {
+          var errorMessage = error.message;
+          setUser({
+            error: errorMessage,
+          });
+          console.log(errorMessage);
+        });
+    }
+
+    // . signed in
+    if (!toggleUser && email && password) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((res) => {
+          setLoggedInUser(res.user);
+          history.replace(from);
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorMessage);
+        });
+    }
+  };
+
   return (
-    <div className="formDiv">
+    <div className="formDiv text-center">
+      {user.error && <p style={{ color: 'red' }}>{user.error}</p>}
+      {user.success && (
+        <p style={{ color: 'green' }}>
+          User {toggleUser ? 'Created' : 'Logged In'} Successfully
+        </p>
+      )}
       <div className="custom__form ">
         <form onSubmit={handleSubmit(onSubmit)}>
           {toggleUser && (
@@ -102,7 +178,7 @@ const Login = () => {
             placeholder="Enter Your Email"
             ref={register({ required: true, pattern: /\S+@\S+\.\S+/ })}
           />
-          {errors.name && (
+          {errors.email && (
             <span style={{ color: 'red' }}>Please Enter Your Name</span>
           )}
           <input
@@ -112,33 +188,20 @@ const Login = () => {
             placeholder="Enter Your Password"
             ref={register({
               pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-              required: true,
             })}
           />
-          {errors.password && (
-            <span style={{ color: 'red' }}>
-              Password must contain at least 1 number, 1 uppercase, 1 lowercase
-              letter and at least 8 or more characters
-            </span>
-          )}
+          <p>{errors.password?.message}</p>
           {toggleUser && (
             <>
               <input
-                id="confirmPassword"
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Your Password"
                 ref={register({
                   pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
-                  required: true,
                 })}
               />
-              {errors.confirmPassword && (
-                <span style={{ color: 'red' }}>
-                  Password must contain at least 1 number, 1 uppercase, 1
-                  lowercase letter and at least 8 or more characters
-                </span>
-              )}
+              <p>{errors.confirmPassword?.message}</p>
             </>
           )}
           {toggleUser || (

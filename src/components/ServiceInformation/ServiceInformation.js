@@ -1,20 +1,35 @@
 import React from 'react';
-
-const ServiceInformation = ({ category, place }) => {
-  console.log(category);
+import ServiceInformationCard from '../ServiceInformationCard/ServiceInformationCard';
+import './ServiceInformation.css';
+const ServiceInformation = ({ rideInfo, place }) => {
   const { from, to } = place;
+  const { category, url } = rideInfo;
   return (
-    <div>
-      <h3>form {from}</h3>
-      <h3>To {to}</h3>
+    <>
+      <div className="bg">
+        <div className="timeline">
+          <div className="containerDiv">
+            <div className="contain">
+              <h5>{from}</h5>
+            </div>
+          </div>
+          <div className="containerDiv ">
+            <div className="contain left">
+              <h5>{to}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {category &&
         category.map((categoryData) => (
-          <div key={categoryData.id}>
-            <span>{categoryData.seat}</span>{' '}
-            <span>{categoryData.categoryName}</span>
-          </div>
+          <ServiceInformationCard
+            key={categoryData.id}
+            categoryData={categoryData}
+            img={url}
+          ></ServiceInformationCard>
         ))}
-    </div>
+    </>
   );
 };
 

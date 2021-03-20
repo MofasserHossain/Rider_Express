@@ -10,10 +10,12 @@
 .menu-item .nav-link {
   color: #000;
 }
-.menu-item a:hover,
-.logo a:hover {
+.menu-item a:hover {
   color: #000;
   text-decoration: none;
+}
+.logo a:hover {
+  color: #ff6e40 !important;
 }
 .logo a {
   color: #ff6e40;

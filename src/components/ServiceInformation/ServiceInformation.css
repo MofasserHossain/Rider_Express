@@ -1,0 +1,43 @@
+.bg {
+  padding: 20px;
+  background-color: #ff6e40;
+  border-radius: 10px;
+}
+.timeline {
+  position: relative;
+  margin: 0 auto;
+}
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background-color: #ffffff;
+  top: 0px;
+  bottom: 0;
+  left: 30px;
+  margin-left: -3px;
+}
+.containerDiv {
+  position: relative;
+}
+.contain {
+  width: 100%;
+  padding-left: 70px;
+  padding-right: 25px;
+  color: #ffffff;
+}
+
+.contain::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  top: 0px;
+  left: 18px;
+  border-radius: 50%;
+  z-index: 1;
+}
+.left::after {
+  top: 8px;
+}

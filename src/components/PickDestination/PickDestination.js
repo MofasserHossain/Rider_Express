@@ -22,8 +22,6 @@ const PickDestination = () => {
     setRideInfo(findServiceData);
   }, [serviceName]);
   console.log(rideInfo);
-  const { category } = rideInfo;
-  console.log(category);
   const handleSearchPlace = (e) => {
     const searchPlaces = { ...searchPlace };
     searchPlaces[e.target.name] = e.target.value;
@@ -42,6 +40,7 @@ const PickDestination = () => {
                   onBlur={handleSearchPlace}
                   type="text"
                   name="from"
+                  required
                   placeholder="Select Your Place"
                 />
                 <h4 className="mt-3">Pick to</h4>
@@ -49,6 +48,7 @@ const PickDestination = () => {
                   onBlur={handleSearchPlace}
                   type="text"
                   name="to"
+                  required
                   placeholder="Select Your Place"
                 />
                 <button
@@ -59,7 +59,7 @@ const PickDestination = () => {
                 </button>
               </div>
             ) : (
-              <ServiceInformation place={searchPlace} category={category} />
+              <ServiceInformation place={searchPlace} rideInfo={rideInfo} />
             )}
           </Col>
           <Col md={8}>

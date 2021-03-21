@@ -57,12 +57,12 @@ const Login = () => {
         displayName: name,
       })
       .then(function () {
-        console.log('user Information Updated');
+        // console.log('user Information Updated');
         setLoggedInUser(user);
         history.replace(from);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
         var errorMessage = error.message;
         setUser({
           error: errorMessage,
@@ -71,7 +71,7 @@ const Login = () => {
   };
   const onSubmit = (data) => {
     const { email, password, name } = data;
-    console.log('clicked');
+    // console.log('clicked');
     if (isSignedIn) {
       firebase
         .auth()
@@ -83,14 +83,14 @@ const Login = () => {
           setUser(newUser);
           updateUser(name);
           history.replace(from);
-          console.log(res);
+          // console.log(res);
         })
         .catch((error) => {
           var errorMessage = error.message;
           setUser({
             error: errorMessage,
           });
-          console.log(errorMessage);
+          // console.log(errorMessage);
         });
     } else {
       firebase
@@ -106,7 +106,10 @@ const Login = () => {
         })
         .catch((error) => {
           var errorMessage = error.message;
-          console.log(errorMessage);
+          setUser({
+            error: errorMessage,
+          });
+          // console.log(errorMessage);
         });
     }
   };

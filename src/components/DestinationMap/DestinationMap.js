@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
-const DestinationMap = (props) => {
-  console.log('se', props);
-  const { from } = props.searchPlace;
-  const [map, setMap] = useState({});
-  useEffect(() => {
-    const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/output?${from}&key=AIzaSyCviXo-YjgT1jnOEEDOsikg5U2iewyiFsw`;
+const DestinationMap = () => {
+  const mapStyles = {
+    height: '100vh',
+    width: '100%',
+  };
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setMap(data))
-      .catch((error) => {
-        setMap(error);
-        console.log(error);
-      });
-  }, [from]);
-
-  const background = {
-    background: `url("https://i.ibb.co/wBMM72t/Map.png")`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    height: '80vh',
-    borderRadius: '5px',
+  const defaultCenter = {
+    lat: 41.3851,
+    lng: 2.1734,
   };
   return (
-    <div>
-      {map.error && <h2>map.error</h2>}
-      {map.images ? <div>{map.img}</div> : <div style={background}> </div>}
-    </div>
+    <LoadScript googleMapsApiKey="AIzaSyCviXo-YjgT1jnOEEDOsikg5U2iewyiFsw">
+      <GoogleMap
+        mapContainerStyle={mapStyles}
+        zoom={13}
+        center={defaultCenter}
+      />
+    </LoadScript>
   );
 };
-
 export default DestinationMap;

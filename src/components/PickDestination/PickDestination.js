@@ -26,18 +26,7 @@ const PickDestination = () => {
     const searchPlaces = { ...searchPlace };
     searchPlaces[e.target.name] = e.target.value;
     setSearchPlace(searchPlaces);
-    // console.log('se', searchPlace);
   };
-
-  const background = {
-    background: `url("https://i.ibb.co/wBMM72t/Map.png")`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    height: '80vh',
-    borderRadius: '5px',
-  };
-
   return (
     <>
       <Container className="pt-3 border-top-2">
@@ -75,11 +64,7 @@ const PickDestination = () => {
             )}
           </Col>
           <Col md={8} className="map">
-            {searchResult ? (
-              <div style={background}></div>
-            ) : (
-              <DestinationMap searchPlace={searchPlace} />
-            )}
+            <DestinationMap searchPlace={searchPlace} />
           </Col>
         </Row>
       </Container>

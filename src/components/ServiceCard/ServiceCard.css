@@ -5,14 +5,19 @@
   color: black;
 }
 .serviceCard {
-  background-color: aliceblue;
+  background-color: #f0f8ff9d;
   padding: 20px 30px;
   margin: 0 10px;
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
+  transition: all 650ms;
+  box-shadow: 0 0 10px #c1c4cc;
 }
-
+.serviceCard:hover {
+  box-shadow: none;
+  transform: scale(1.09);
+}
 .serviceCard img {
   width: 150px;
 }

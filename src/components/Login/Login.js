@@ -117,7 +117,6 @@ const Login = () => {
           console.log(errorMessage);
         });
     } else {
-      console.log('sign in button clicked');
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)

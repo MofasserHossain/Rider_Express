@@ -1,5 +1,5 @@
 .formDiv {
-  width: 40%;
+  max-width: 600px;
   display: block;
   margin: 0 auto;
   padding: 20px;
@@ -73,4 +73,7 @@
 .otherSignIn button .google {
   font-size: 18px;
   color: #ff6e40;
+}
+
+@media (max-width: 991px) {
 }

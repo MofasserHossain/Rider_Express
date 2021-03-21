@@ -22,3 +22,9 @@
   width: 20px;
   margin-top: -5px;
 }
+
+@media (max-width: 768px) {
+  .bg {
+    margin-bottom: 10px;
+  }
+}

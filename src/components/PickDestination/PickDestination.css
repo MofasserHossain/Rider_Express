@@ -18,3 +18,8 @@
 .form-card h4 {
   color: #363636;
 }
+@media (max-width: 768px) {
+  .map {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,8 @@
+.notFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: red;
+  height: 80vh;
+}

@@ -6,6 +6,7 @@ import { createContext, useState } from 'react';
 import Home from './components/Home/Home';
 import PickDestination from './components/PickDestination/PickDestination';
 import Login from './components/Login/Login';
+import NotFound from './components/NotFound/NotFound';
 export const UserContext = createContext();
 function App() {
   const [loggedInUser, setLoggedInUser] = useState({});
@@ -23,7 +24,9 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="*">{/* <LoginPage /> */}</Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
       </Router>
     </UserContext.Provider>

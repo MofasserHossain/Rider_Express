@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebase.config';
@@ -8,20 +8,6 @@ import './Login.css';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-const schema = yup.object().shape({
-  password: yup
-    .string()
-    .required(
-      'Password must contain at least 1 number 1 uppercase 1 lowercase letter and at least 8 or more characters'
-    ),
-  confirmPassword: yup
-    .string()
-    .required('Confirm Password is required')
-    .oneOf([yup.ref('password'), null], 'Passwords does not match'),
-});
 const Login = () => {
   // . location
   const history = useHistory();
@@ -33,7 +19,7 @@ const Login = () => {
   } else {
     firebase.app();
   }
-  const [toggleUser, setToggleUser] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState({
     isSigned: false,
     name: '',
@@ -42,6 +28,7 @@ const Login = () => {
     password: '',
     error: '',
     success: false,
+    updateUser: false,
   });
   const handleGoogleSignIn = () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -49,15 +36,10 @@ const Login = () => {
       .auth()
       .signInWithPopup(googleProvider)
       .then((res) => {
-        const { displayName, photoURL, email } = res.user;
-        setUser({
-          isSigned: true,
-          name: displayName,
-          email: email,
-          error: '',
-          success: true,
-          photo: photoURL,
-        });
+        const newUser = { ...user };
+        newUser.error = '';
+        newUser.success = true;
+        setUser(newUser);
         setLoggedInUser(res.user);
         history.replace(from);
       })
@@ -65,6 +47,9 @@ const Login = () => {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage, errorCode);
+        setUser({
+          error: errorMessage,
+        });
       });
   };
 
@@ -76,27 +61,20 @@ const Login = () => {
       .then((result) => {
         var user = result.user;
         console.log(user);
-        const { displayName, photoURL, email } = result.user;
-        setUser({
-          isSigned: true,
-          name: displayName,
-          email: email,
-          error: '',
-          photo: photoURL,
-          success: true,
-        });
         setLoggedInUser(user);
         history.replace(from);
       })
       .catch((error) => {
         var errorMessage = error.message;
         console.log(errorMessage);
+        setUser({
+          error: errorMessage,
+        });
       });
   };
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
-  });
-
+  const { register, handleSubmit, errors, watch } = useForm();
+  const password = useRef({});
+  password.current = watch('password', '');
   const updateUser = (name) => {
     const user = firebase.auth().currentUser;
     user
@@ -105,14 +83,21 @@ const Login = () => {
       })
       .then(function () {
         console.log('user Information Updated');
+        setLoggedInUser(user);
+        history.replace(from);
       })
       .catch(function (error) {
         console.log(error);
+        var errorMessage = error.message;
+        setUser({
+          error: errorMessage,
+        });
       });
   };
   const onSubmit = (data) => {
     const { email, password, name } = data;
-    if (toggleUser && email && password) {
+    console.log('clicked');
+    if (isSignedIn) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -122,7 +107,6 @@ const Login = () => {
           newUser.success = true;
           setUser(newUser);
           updateUser(name);
-          setLoggedInUser(res.user);
           history.replace(from);
         })
         .catch((error) => {
@@ -132,19 +116,20 @@ const Login = () => {
           });
           console.log(errorMessage);
         });
-    }
-
-    // . signed in
-    if (!toggleUser && email && password) {
+    } else {
+      console.log('sign in button clicked');
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((res) => {
+          const newUser = { ...user };
+          newUser.error = '';
+          newUser.success = true;
+          setUser(newUser);
           setLoggedInUser(res.user);
           history.replace(from);
         })
         .catch((error) => {
-          var errorCode = error.code;
           var errorMessage = error.message;
           console.log(errorMessage);
         });
@@ -156,12 +141,12 @@ const Login = () => {
       {user.error && <p style={{ color: 'red' }}>{user.error}</p>}
       {user.success && (
         <p style={{ color: 'green' }}>
-          User {toggleUser ? 'Created' : 'Logged In'} Successfully
+          User {isSignedIn ? 'Created' : 'Logged In'} Successfully
         </p>
       )}
       <div className="custom__form ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          {toggleUser && (
+          {isSignedIn && (
             <>
               <input
                 name="name"
@@ -179,10 +164,9 @@ const Login = () => {
             ref={register({ required: true, pattern: /\S+@\S+\.\S+/ })}
           />
           {errors.email && (
-            <span style={{ color: 'red' }}>Please Enter Your Name</span>
+            <span style={{ color: 'red' }}>Please Enter Your Email</span>
           )}
           <input
-            id="password"
             name="password"
             type="password"
             placeholder="Enter Your Password"
@@ -190,8 +174,14 @@ const Login = () => {
               pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
             })}
           />
-          <p>{errors.password?.message}</p>
-          {toggleUser && (
+          {errors.password && <p>{errors.password.message}</p>}
+          {errors.password && (
+            <p style={{ color: 'red' }}>
+              password must contain at least 1 number, 1 uppercase, 1 lowercase
+              letter and at least 8 or more characters
+            </p>
+          )}
+          {isSignedIn && (
             <>
               <input
                 name="confirmPassword"
@@ -199,12 +189,19 @@ const Login = () => {
                 placeholder="Confirm Your Password"
                 ref={register({
                   pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                  validate: (value) =>
+                    value === password.current || 'The passwords do not match',
                 })}
               />
-              <p>{errors.confirmPassword?.message}</p>
+              {errors.password && <p>{errors.password.message}</p>}
+              {errors.confirmPassword && (
+                <p style={{ color: 'red' }}>
+                  {errors.confirmPassword?.message}
+                </p>
+              )}
             </>
           )}
-          {toggleUser || (
+          {!isSignedIn && (
             <div className="d-flex justify-content-between">
               <span>
                 <input type="checkbox" id="check" />
@@ -215,18 +212,18 @@ const Login = () => {
           )}
           <input
             className="btn btn-submit"
-            type="Submit"
-            value={toggleUser ? 'Submit' : 'Log In'}
+            type="submit"
+            value={isSignedIn ? 'Submit' : 'Log In'}
           />
         </form>
 
         <p className="text-center">
-          {toggleUser ? 'Already Have an Account?' : 'Don,t Have an Account? '}{' '}
+          {isSignedIn ? 'Already Have an Account?' : 'Don,t Have an Account? '}{' '}
           <span
             className="color cursor-pointer"
-            onClick={() => setToggleUser(!toggleUser)}
+            onClick={() => setIsSignedIn(!isSignedIn)}
           >
-            {toggleUser ? 'Log In' : 'Create Account'}
+            {isSignedIn ? 'Log In' : 'Create Account'}
           </span>
         </p>
       </div>

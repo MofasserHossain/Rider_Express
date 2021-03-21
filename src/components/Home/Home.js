@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import servicesData from '../../fakeData/fakeData.json';
-import { Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import ServiceCard from '../ServiceCard/ServiceCard';
 const Home = () => {
   const background = {
@@ -9,7 +9,7 @@ const Home = () => {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    height: '100vh',
+    padding: '160px 0',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -21,11 +21,13 @@ const Home = () => {
   // console.log(services);
   return (
     <div style={background}>
-      <Row>
-        {services.map((service) => (
-          <ServiceCard key={service.id} service={service}></ServiceCard>
-        ))}
-      </Row>
+      <Container>
+        <Row>
+          {services.map((service) => (
+            <ServiceCard key={service.id} service={service}></ServiceCard>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -16,3 +16,9 @@
 .serviceCard img {
   width: 150px;
 }
+
+@media (max-width: 991px) {
+  .service {
+    margin-bottom: 10px;
+  }
+}

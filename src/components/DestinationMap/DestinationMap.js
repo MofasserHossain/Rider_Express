@@ -12,7 +12,7 @@ const DestinationMap = () => {
     lng: 2.1734,
   };
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCviXo-YjgT1jnOEEDOsikg5U2iewyiFsw">
+    <LoadScript googleMapsApiKey="AIzaSyCYllTGDdyrOuGjVjOY6swftkR6m34N1ek">
       <GoogleMap
         mapContainerStyle={mapStyles}
         zoom={13}

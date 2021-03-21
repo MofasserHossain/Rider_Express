@@ -174,7 +174,7 @@ const Login = () => {
               pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
             })}
           />
-          {errors.password && <p>{errors.password.message}</p>}
+
           {errors.password && (
             <p style={{ color: 'red' }}>
               password must contain at least 1 number, 1 uppercase, 1 lowercase
@@ -193,11 +193,11 @@ const Login = () => {
                     value === password.current || 'The passwords do not match',
                 })}
               />
-              {errors.password && <p>{errors.password.message}</p>}
               {errors.confirmPassword && (
-                <p style={{ color: 'red' }}>
-                  {errors.confirmPassword?.message}
-                </p>
+                <p>{errors.confirmPassword?.message}</p>
+              )}
+              {errors.confirmPassword && (
+                <p style={{ color: 'red' }}>Password Not Matched</p>
               )}
             </>
           )}

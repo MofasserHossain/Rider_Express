@@ -20,7 +20,6 @@ const ServiceInformation = ({ rideInfo, place }) => {
           </div>
         </div>
       </div>
-
       {category &&
         category.map((categoryData) => (
           <ServiceInformationCard

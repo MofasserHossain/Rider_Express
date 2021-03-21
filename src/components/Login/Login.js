@@ -1,28 +1,29 @@
 import React, { useContext, useState, useRef } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import firebaseConfig from './firebase.config';
 import { UserContext } from '../../App';
 import { useHistory, useLocation } from 'react-router';
 import './Login.css';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import {
+  handleFbSignIn,
+  handleGoogleSignIn,
+  initializeFirebaseFramework,
+} from './ManageLogin';
+
 const Login = () => {
   // . location
   const history = useHistory();
   const location = useLocation();
   let { from } = location.state || { from: { pathname: '/' } };
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  } else {
-    firebase.app();
-  }
+  initializeFirebaseFramework();
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState({
     isSigned: false,
-    name: '',
+    displayName: '',
     email: '',
     photo: '',
     password: '',
@@ -30,51 +31,25 @@ const Login = () => {
     success: false,
     updateUser: false,
   });
-  const handleGoogleSignIn = () => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(googleProvider)
-      .then((res) => {
-        const newUser = { ...user };
-        newUser.error = '';
-        newUser.success = true;
-        setUser(newUser);
-        setLoggedInUser(res.user);
-        history.replace(from);
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorMessage, errorCode);
-        setUser({
-          error: errorMessage,
-        });
-      });
+  const googleSignIn = () => {
+    handleGoogleSignIn().then((res) => {
+      setUser(res);
+      setLoggedInUser(res);
+      history.replace(from);
+    });
   };
 
-  const handleFbSignIn = () => {
-    var FbProvider = new firebase.auth.FacebookAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(FbProvider)
-      .then((result) => {
-        var user = result.user;
-        console.log(user);
-        setLoggedInUser(user);
-        history.replace(from);
-      })
-      .catch((error) => {
-        var errorMessage = error.message;
-        console.log(errorMessage);
-        setUser({
-          error: errorMessage,
-        });
-      });
+  const fbSignIn = () => {
+    handleFbSignIn().then((res) => {
+      setUser(res);
+      setLoggedInUser(res);
+      history.replace(from);
+    });
   };
   const { register, handleSubmit, errors, watch } = useForm();
   const password = useRef({});
   password.current = watch('password', '');
+
   const updateUser = (name) => {
     const user = firebase.auth().currentUser;
     user
@@ -108,6 +83,7 @@ const Login = () => {
           setUser(newUser);
           updateUser(name);
           history.replace(from);
+          console.log(res);
         })
         .catch((error) => {
           var errorMessage = error.message;
@@ -228,14 +204,14 @@ const Login = () => {
       </div>
       <div className="otherSignIn text-center">
         <p className="my-2">Or</p>
-        <button onClick={handleGoogleSignIn}>
+        <button onClick={googleSignIn}>
           <span className="google">
             <FontAwesomeIcon icon={faGoogle} />
           </span>
           Sign In With Google
         </button>
         <br />
-        <button onClick={handleFbSignIn}>
+        <button onClick={fbSignIn}>
           <span className="fb">
             <FontAwesomeIcon icon={faFacebookF} />
           </span>

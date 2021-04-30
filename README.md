@@ -18,4 +18,5 @@ This is a React Authentication's Rider Express Project. Here are 4 type of Rider
 Download this project. Open this project in code editor and open project root folder in terminal and just simply Run `npm install` This will automatically install all the dependency node module file in this react project. And then just run `npm start` in your command line.
 
 `Or`
+
 Clone this project link. Open terminal and go to a folder root directory where you clone this project. Then type `git clone "project clone link"`. This will clone all the project files and commits. If it is success then simply Run `npm install` This will automatically install all the dependency node module file in this react project. And then just run `npm start` in your command line.
